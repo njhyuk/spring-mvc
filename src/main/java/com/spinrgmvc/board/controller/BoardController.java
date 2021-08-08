@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.validation.Valid;
+
 @Controller
 public class BoardController {
     @Autowired
@@ -38,7 +40,7 @@ public class BoardController {
      * bindingResult : boardVO 바인딩 할때 오류가 발생하는 경우 오류 내용을 저장함
      */
     @RequestMapping(value = "/board/write", method = RequestMethod.POST)
-    public String write(BoardVO boardVO, BindingResult bindingResult) {
+    public String write(@Valid BoardVO boardVO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "/board/write";
         } else {
