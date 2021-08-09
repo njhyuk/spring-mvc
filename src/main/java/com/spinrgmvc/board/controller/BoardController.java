@@ -76,4 +76,28 @@ public class BoardController {
         model.addAttribute("msg", "비밀번호가 일치하지 않습니다.");
         return "/board/edit";
     }
+
+    @RequestMapping(value = "/board/delete/{seq}", method = RequestMethod.GET)
+    public String delete(@PathVariable int seq, Model model) {
+        model.addAttribute("boardVO", boardService.read(seq));
+        return "/board/delete";
+    }
+
+    @RequestMapping(value = "/board/delete", method = RequestMethod.POST)
+    public String delete(int seq, int pwd, Model model) {
+        int rowCount;
+        BoardVO boardVO = new BoardVO();
+        boardVO.setSeq(seq);
+        boardVO.setPassword(pwd);
+
+        rowCount = boardService.delete(boardVO);
+
+        if (rowCount == 0) {
+            model.addAttribute("seq", seq);
+            model.addAttribute("msg", "비밀번호가 일치하지 않습니다.");
+            return "/board/delete";
+        } else {
+            return "redirect:/board/list";
+        }
+    }
 }
